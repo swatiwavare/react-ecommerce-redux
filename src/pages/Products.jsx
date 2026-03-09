@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
+import "./Products.css"; // Import a CSS file for styles
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -18,30 +19,20 @@ function Products() {
   );
 
   return (
-    <div>
-      <h2>Products</h2>
+    <div className="products-container">
+      <h2 className="products-title">Products</h2>
 
       {/* Search Input */}
       <input
         type="text"
+        className="search-input"
         placeholder="Search products..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        style={{
-          padding: "10px",
-          margin: "20px",
-          width: "300px",
-        }}
       />
 
       {/* Product List */}
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "20px",
-        }}
-      >
+      <div className="product-grid">
         {filteredProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
