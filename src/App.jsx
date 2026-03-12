@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
-
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Products from "./pages/Products";
-import ProductDetails from "./pages/ProductDetails";
-import Cart from "./pages/Cart";
+const Home = lazy(() => import("./pages/Home"));
+const Products = lazy(() => import("./pages/Products"));
+const Cart = lazy(() => import("./pages/Cart"));
+const ProductDetails = lazy(() => import("./pages/ProductDetails"));
 import Navbar from "./components/Navbar";
 import "./App.css";
 function App() {
@@ -53,26 +53,27 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar cart={cart} />
+      <Suspense fallback={<h2 className="text-center mt-10">Loading...</h2>}>
+        <Routes>
+          <Route path="/" element={<Home />} />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
 
-        <Route path="/products" element={<Products />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
 
-        <Route path="/product/:id" element={<ProductDetails />} />
-
-        <Route
-          path="/cart"
-          element={
-            <Cart
-              cartItems={cart}
-              // removeFromCart={removeFromCart}
-              // IncreaseQty={IncreaseQty}
-              // RemoveQty={RemoveQty}
-            />
-          }
-        />
-      </Routes>
+          <Route
+            path="/cart"
+            element={
+              <Cart
+                cartItems={cart}
+                // removeFromCart={removeFromCart}
+                // IncreaseQty={IncreaseQty}
+                // RemoveQty={RemoveQty}
+              />
+            }
+          />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }
